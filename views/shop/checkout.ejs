@@ -1,0 +1,17 @@
+<%- include('../includes/head.ejs') %>
+<%- include('../includes/navigation.ejs') %>
+<main>
+    <div>
+        <h1>
+            Checkout
+        </h1>
+    </div>
+    <div>
+        <% if (cart.length > 0) {%>
+            <h2>What You Will Receive</h2>
+        <% } else { %>
+            <h2>Please select an item!</h2>
+        <% } %>
+    </div>
+</main>
+<%- include('../includes/end.ejs') %>
