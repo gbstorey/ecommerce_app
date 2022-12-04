@@ -40,8 +40,17 @@ exports.getCart = (req,res) => {
 
 exports.getCheckout = (req, res) => {
   res.render("shop/checkout", {
-    cart,
     path: "/checkout",
     pageTitle: "Checkout"
+  });
+}
+
+exports.getOrders = (req, res) => {
+  Cart.fetchCart((cart) => {
+    res.render("shop/orders", {
+      cart,
+      path: "/orders",
+      pageTitle: "Orders"
+    });
   });
 }
