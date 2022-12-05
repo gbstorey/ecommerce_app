@@ -5,7 +5,7 @@ const { getProducts, getIndex, getCart, getCheckout, getOrders } = require("../c
 const router = express.Router();
 
 router.get("/", getIndex);
-router.get("/products", getProducts);
+router.get("/product-list", getProducts);
 router.get("/cart", getCart);
 router.get("/checkout", getCheckout);
 router.get("/orders", getOrders);
