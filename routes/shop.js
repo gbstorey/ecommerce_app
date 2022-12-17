@@ -1,6 +1,6 @@
 
 const express = require("express");
-const { getProducts, getIndex, getCart, getCheckout, getOrders, getProduct, postCart, postCartDeleteProduct, postOrder} = require("../controllers/shop");
+const { getProducts, getIndex, getCart, getOrders, getProduct, postCart, postCartDeleteProduct, postOrder} = require("../controllers/shop");
 
 const router = express.Router();
 

@@ -2,8 +2,8 @@ const path = require("path");
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const {mongoConnect} = require('./util/database');
-const User = require('./models/user')
+const { mongoose } = require("mongoose");
+const User = require("./models/user");
 
 const app = express();
 
@@ -18,9 +18,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
-    User.findById("639a40d9c646c276ea3b1019")
+    User.findById("639cf8c60089ddb68bbbff0c")
         .then(user => {
-            req.user = new User(user.name, user.email, user.cart, user._id);
+            req.user = user;
             next();
         })
         .catch(err => {
@@ -33,8 +33,33 @@ app.use(shopRoutes);
 
 app.use(pageNotFound);
 
-mongoConnect(() => {
-
+mongoose
+  .connect(
+    "mongodb+srv://admin:d43JupODgMB0DChu@cluster0.smimobs.mongodb.net/shop"
+  )
+  .then(() => {
+      User.findOne().then(user => {
+          if (!user) {
+              const user = new User({
+                  name: "Max",
+                  email: "max@test.com",
+                  cart: {
+                      items: [],
+                  },
+              });
+              user
+                  .save()
+                  .then(() => {
+                      console.log("New User Created")
+                  })
+                  .catch(err => {
+                      console.log(err);
+                  });
+          }
+      })
+    console.log("Database connection established, listening on port 3000");
     app.listen(3000);
-})
-
+  })
+  .catch((err) => {
+    console.log(err);
+  });
