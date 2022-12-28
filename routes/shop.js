@@ -5,7 +5,7 @@ const { getProducts, getIndex, getCart, getOrders, getProduct, postCart, postCar
 const router = express.Router();
 
 router.get("/", getIndex);
-router.get("/product-list", getProducts);
+router.get("/products", getProducts);
 router.get("/products/:productId", getProduct);
 router.get("/cart", getCart)
 router.post("/cart", postCart)
