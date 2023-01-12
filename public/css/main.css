@@ -93,7 +93,7 @@ form {
 }
 
 .mobile-nav.open {
-  transform: translateX(20%);
+  transform: translateX(0);
 }
 
 .mobile-nav__item-list {
