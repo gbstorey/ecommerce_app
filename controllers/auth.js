@@ -54,7 +54,11 @@ exports.postLogin = (req, res, next) => {
     });
   }
   return req.session.save((err) => {
-    console.log(err);
+    if (err) {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    }
     return res.redirect("/");
   });
 };
@@ -121,7 +125,7 @@ exports.getReset = (req, res) => {
   });
 };
 
-exports.postReset = (req, res) => {
+exports.postReset = (req, res, next) => {
   crypto.randomBytes(32, (err, buffer) => {
     if (err) {
       console.log(err);
@@ -152,12 +156,14 @@ exports.postReset = (req, res) => {
         return sgMail.send(msg);
       })
       .catch((err) => {
-        console.log(err);
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
       });
   });
 };
 
-exports.getNewPassword = (req, res) => {
+exports.getNewPassword = (req, res, next) => {
   const token = req.params.token;
   User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } })
     .then((user) => {
@@ -175,12 +181,14 @@ exports.getNewPassword = (req, res) => {
         passwordToken: token,
       });
     })
-    .catch((err) => {
-      console.log(err);
-    });
+      .catch((err) => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+      });
 };
 
-exports.postNewPassword = (req, res) => {
+exports.postNewPassword = (req, res, next) => {
   const newPassword = req.body.password;
   const userId = req.body.userId;
   const passwordToken = req.body.passwordToken;
@@ -204,6 +212,8 @@ exports.postNewPassword = (req, res) => {
       res.redirect("/login");
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
